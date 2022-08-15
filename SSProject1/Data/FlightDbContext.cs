@@ -12,5 +12,40 @@ namespace SSProject1.Data
         }
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Passenger> Passengers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Booking>()
+                .HasKey(booking => new {booking.FlightId, booking.PassengerId});
+
+
+            // setting up one to many relationship between booking and flights
+            modelBuilder.Entity<Booking>()
+                .HasOne(booking => booking.Flight)
+                .WithMany(booking => booking.BookedPassengers)
+                .HasForeignKey(booking => booking.FlightId);
+
+            // setting up one to many relationship between booking and passengers
+            modelBuilder.Entity<Booking>()
+                .HasOne(booking => booking.Passenger)
+                .WithMany(booking => booking.BookedFlights)
+                .HasForeignKey(booking => booking.PassengerId);
+
+            // Another way to write the above code
+
+            //modelBuilder.Entity<Booking>(booking =>
+            //{
+            //    booking.HasKey(booking => new { booking.FlightId, booking.PassengerId });
+
+            //    booking.HasOne(booking => booking.Flight)
+            //    .WithMany(booking => booking.BookedPassengers)
+            //    .HasForeignKey(booking => booking.FlightId);
+                
+            //    booking.HasOne(booking => booking.Passenger)
+            //    .WithMany(booking => booking.BookedFlights)
+            //    .HasForeignKey(booking => booking.PassengerId);
+
+            //});
+        }
     }
 }

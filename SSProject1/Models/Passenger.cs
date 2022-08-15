@@ -9,6 +9,6 @@
         public string Email { get; set; }
 
         // Navigation Properties
-        public virtual ICollection<Flight> PassengerFlights { get; set; }
+        public virtual ICollection<Booking> BookedFlights { get; set; }
     }
 }
