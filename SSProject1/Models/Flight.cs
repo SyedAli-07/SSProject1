@@ -1,7 +1,10 @@
-﻿namespace SSProject1.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SSProject1.Models
 {
     public class Flight
     {
+        [Key]
         public int Id { get; set; }
         public string FlightNumber { get; set; }
         public string DepartureDateTime { get; set; }

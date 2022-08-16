@@ -11,6 +11,16 @@ namespace SSProject1
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin();
+                    policy.AllowAnyMethod();
+                    policy.AllowAnyHeader();
+                });
+            });
+
             // Add services to the container.
             builder.Services.AddDbContext<FlightDbContext>(options =>
             {
@@ -34,8 +44,15 @@ namespace SSProject1
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseCors("AllowAll");
 
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                await next();
+            });
+
+            app.UseAuthorization();
 
             app.MapControllers();
 

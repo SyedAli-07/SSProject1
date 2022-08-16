@@ -1,7 +1,10 @@
-﻿namespace SSProject1.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SSProject1.Models
 {
     public class Passenger
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }

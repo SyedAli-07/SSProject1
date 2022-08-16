@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SSProject1.Data;
 using SSProject1.Models;
+using SSProject1.DTO;
 
 namespace SSProject1.Controllers
 {
@@ -87,12 +88,20 @@ namespace SSProject1.Controllers
         // POST: api/Passengers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Passenger>> PostPassenger(Passenger passenger)
+        public async Task<ActionResult<Passenger>> PostPassenger(PassengerDTO passengerDto)
         {
           if (_context.Passengers == null)
           {
               return Problem("Entity set 'FlightDbContext.Passengers'  is null.");
           }
+
+            var passenger = new Passenger()
+            {
+                Name = passengerDto.Name,
+                Age = passengerDto.Age,
+                Occupation = passengerDto.Occupation,
+                Email = passengerDto.Email
+            };
             _context.Passengers.Add(passenger);
             await _context.SaveChangesAsync();
 

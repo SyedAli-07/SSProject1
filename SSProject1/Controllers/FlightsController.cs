@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SSProject1.Data;
 using SSProject1.Models;
+using SSProject1.DTO;
 
 namespace SSProject1.Controllers
 {
@@ -87,12 +88,23 @@ namespace SSProject1.Controllers
         // POST: api/Flights
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Flight>> PostFlight(Flight flight)
+        public async Task<ActionResult<Flight>> PostFlight(FlightDTO flightDto)
         {
           if (_context.Flights == null)
           {
               return Problem("Entity set 'FlightDbContext.Flights'  is null.");
           }
+
+            var flight = new Flight()
+            {
+                FlightNumber = flightDto.FlightNumber,
+                DepartureDateTime = flightDto.DepartureDateTime,
+                DepartureAirport = flightDto.DepartureAirport,
+                ArrivalDateTime = flightDto.ArrivalDateTime,
+                ArrivalAirport = flightDto.ArrivalAirport,
+                MaxCapacity = flightDto.MaxCapacity
+            };
+
             _context.Flights.Add(flight);
             await _context.SaveChangesAsync();
 
