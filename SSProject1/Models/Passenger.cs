@@ -12,6 +12,6 @@ namespace SSProject1.Models
         public string Email { get; set; }
 
         // Navigation Properties
-        public virtual ICollection<Booking> BookedFlights { get; set; }
+        public virtual ICollection<BookedPassenger> BookedFlights { get; set; }
     }
 }

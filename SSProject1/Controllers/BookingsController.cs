@@ -37,7 +37,7 @@ namespace SSProject1.Controllers
 
         // GET: api/Bookings/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<BookingDTO>> GetBooking(int id)
+        public async Task<ActionResult<BookingDetailsDTO>> GetBooking(int id)
         {
           if (_context.Booking == null)
           {
@@ -56,9 +56,7 @@ namespace SSProject1.Controllers
             var fpDTO = new BookingDTO
             {
                 FlightId = booking.FlightId,
-                PassengerId = booking.PassengerId,
-                Flights = flights,
-                Passengers = passengers
+                PassengerId = booking.PassengerId
             };
 
             return Ok(fpDTO);
@@ -98,20 +96,20 @@ namespace SSProject1.Controllers
         // POST: api/Bookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Booking>> PostBooking(Booking booking)
+        public async Task<ActionResult<Booking>> PostBooking(BookingDTO dto)
         {
           if (_context.Booking == null)
           {
               return Problem("Entity set 'FlightDbContext.Booking'  is null.");
           }
-            _context.Booking.Add(booking);
+            _context.Booking.Add(dto);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (BookingExists(booking.FlightId))
+                if (BookingExists(dto.FlightId))
                 {
                     return Conflict();
                 }
