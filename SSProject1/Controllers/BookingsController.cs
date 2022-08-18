@@ -36,14 +36,14 @@ namespace SSProject1.Controllers
         }
 
         // GET: api/Bookings/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BookingDTO>> GetBooking(int id)
+        [HttpGet("{flightId}/{passengerId}")]
+        public async Task<ActionResult<BookingDTO>> GetBooking(int flightId, int passengerId)
         {
           if (_context.Booking == null)
           {
               return NotFound();
           }
-            var booking = await _context.Booking.FindAsync(id);
+            var booking = await _context.Booking.FindAsync(flightId, passengerId);
 
             if (booking == null)
             {
@@ -98,20 +98,21 @@ namespace SSProject1.Controllers
         // POST: api/Bookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Booking>> PostBooking(Booking booking)
+        public async Task<ActionResult<Booking>> PostBooking(BookingDTO bookingDto)
         {
           if (_context.Booking == null)
           {
               return Problem("Entity set 'FlightDbContext.Booking'  is null.");
           }
+            var booking = new Booking(bookingDto);
             _context.Booking.Add(booking);
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException) 
             {
-                if (BookingExists(booking.FlightId))
+                if (BookingExists(bookingDto.FlightId))
                 {
                     return Conflict();
                 }
@@ -121,7 +122,7 @@ namespace SSProject1.Controllers
                 }
             }
 
-            return CreatedAtAction("GetBooking", new { id = booking.FlightId }, booking);
+            return CreatedAtAction("GetBooking", new { id = bookingDto.FlightId, bookingDto.PassengerId }, bookingDto);
         }
 
         // DELETE: api/Bookings/5

@@ -22,8 +22,8 @@ namespace SSProject1.Models
         {
             this.FlightId = dto.FlightId;
             this.PassengerId = dto.PassengerId;
-            this.Flights = new List<Flight>();
-            this.Passengers = new List<Passenger>();
+            //this.Flights = new List<Flight>();
+            //this.Passengers = new List<Passenger>();
         }
     }
 }

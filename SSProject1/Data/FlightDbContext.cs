@@ -12,7 +12,7 @@ namespace SSProject1.Data
         }
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Passenger> Passengers { get; set; }
-
+        public DbSet<Booking> Booking { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Booking>()
@@ -48,6 +48,6 @@ namespace SSProject1.Data
             //});
         }
 
-        public DbSet<SSProject1.Models.Booking>? Booking { get; set; }
+        
     }
 }
