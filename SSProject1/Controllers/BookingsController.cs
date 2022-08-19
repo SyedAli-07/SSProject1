@@ -57,8 +57,9 @@ namespace SSProject1.Controllers
             {
                 FlightId = booking.FlightId,
                 PassengerId = booking.PassengerId,
-                Flights = flights,
-                Passengers = passengers
+                ConfirmationNumber = booking.ConfirmationNumber
+                //Flights = flights,
+                //Passengers = passengers
             };
 
             return Ok(fpDTO);
@@ -126,14 +127,14 @@ namespace SSProject1.Controllers
         }
 
         // DELETE: api/Bookings/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBooking(int id)
+        [HttpDelete("{flightId}/{passengerId}")]
+        public async Task<IActionResult> DeleteBooking(int flightId, int passengerId)
         {
             if (_context.Booking == null)
             {
                 return NotFound();
             }
-            var booking = await _context.Booking.FindAsync(id);
+            var booking = await _context.Booking.FindAsync(flightId, passengerId);
             if (booking == null)
             {
                 return NotFound();

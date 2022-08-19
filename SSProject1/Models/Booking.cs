@@ -10,11 +10,13 @@ namespace SSProject1.Models
         public int PassengerId { get; set; }
         public virtual Passenger Passenger { get; set; }
 
-        // Not Stored Property
-        public int CurrentCapacity => Passengers?.Count ?? 0;
+        public int ConfirmationNumber { get; set; }
 
-        public virtual ICollection<Flight> Flights { get; set; }
-        public virtual ICollection<Passenger> Passengers { get; set; }
+        // Not Stored Property
+        //public int CurrentCapacity => BookedPassengers?.Count ?? 0;
+
+        //public virtual ICollection<Flight> BookedPassengers { get; set; }
+        //public virtual ICollection<Passenger> BookedFlights { get; set; }
 
         public Booking() { }
 
@@ -22,8 +24,9 @@ namespace SSProject1.Models
         {
             this.FlightId = dto.FlightId;
             this.PassengerId = dto.PassengerId;
-            //this.Flights = new List<Flight>();
-            //this.Passengers = new List<Passenger>();
-        }
+            this.ConfirmationNumber = dto.ConfirmationNumber;
+        //this.Flights = new List<Flight>();
+        //this.Passengers = new List<Passenger>();
+    }
     }
 }
