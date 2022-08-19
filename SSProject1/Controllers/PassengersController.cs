@@ -53,6 +53,33 @@ namespace SSProject1.Controllers
             return passenger;
         }
 
+        // GET: api/Passengers/Flight/5
+        [HttpGet("Flight/{id}")]
+        public async Task<ActionResult<List<PassengerDTO>>> GetPassengersByFlight(int id)
+        {
+            if (_context.Passengers == null)
+            {
+                return NotFound();
+            }
+            var flight = await _context.Flights.Include(p => p.Passengers).FirstOrDefaultAsync(f => f.Id == id);
+            var fp = flight.Passengers;
+            var pDto = new List<PassengerDTO>();
+            foreach(var f in fp)
+            {
+                var d = new PassengerDTO
+                {
+                    Id = f.Id,
+                    Name = f.Name,
+                    Age = f.Age,
+                    Occupation = f.Occupation,
+                    Email = f.Email
+                };
+                pDto.Add(d);
+            }
+
+            return Ok(pDto);
+        }
+
         // PUT: api/Passengers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -106,10 +133,30 @@ namespace SSProject1.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPassenger", new { id = passenger.Id }, passenger);
+
         }
 
-        // DELETE: api/Passengers/5
-        [HttpDelete("{id}")]
+        // POST: api/Passengers/id/Flight/flightId
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost("{id}/Flight/{flightId}")]
+        public async Task<ActionResult<Passenger>> PostFlightToPassenger(int id, int flightId)
+        {
+            if (_context.Passengers == null)
+            {
+                return Problem("Entity set 'FlightDbContext.Passengers'  is null.");
+            }
+
+            var passenger = await _context.Passengers.FindAsync(id);
+            var flight = await _context.Flights.FindAsync(flightId);
+
+            passenger.Flights.Add(flight);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+            // DELETE: api/Passengers/5
+            [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePassenger(int id)
         {
             if (_context.Passengers == null)

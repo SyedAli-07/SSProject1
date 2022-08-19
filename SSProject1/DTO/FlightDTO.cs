@@ -4,6 +4,7 @@ namespace SSProject1.DTO
 {
     public class FlightDTO
     {
+        public int? Id { get; set; }
         public string FlightNumber { get; set; }
         public string DepartureDateTime { get; set; }
         public string DepartureAirport { get; set; }

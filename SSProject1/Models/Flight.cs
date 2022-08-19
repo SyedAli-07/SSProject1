@@ -15,7 +15,10 @@ namespace SSProject1.Models
 
 
         // Navigation Properties
-        public virtual ICollection<Booking> BookedPassengers { get; set; }
+        //public virtual ICollection<Booking> BookedPassengers { get; set; }
+
+        public virtual ICollection<Passenger> Passengers { get; set; }
+
 
     }
 }

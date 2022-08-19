@@ -9,6 +9,7 @@ namespace SSProject1.Models
         public virtual Flight Flight { get; set; }
         public int PassengerId { get; set; }
         public virtual Passenger Passenger { get; set; }
+        public int ConfirmationNumber { get; set; }
 
         // Not Stored Property
         public int CurrentCapacity => Passengers?.Count ?? 0;
@@ -22,6 +23,7 @@ namespace SSProject1.Models
         {
             this.FlightId = dto.FlightId;
             this.PassengerId = dto.PassengerId;
+            this.ConfirmationNumber = dto.ConfirmationNumber;
             //this.Flights = new List<Flight>();
             //this.Passengers = new List<Passenger>();
         }

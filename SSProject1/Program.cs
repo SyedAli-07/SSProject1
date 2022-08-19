@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
@@ -10,6 +11,11 @@ namespace SSProject1
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            //builder.Services.Configure<JsonOptions>(options =>
+            //{
+            //    options.SerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            //});
 
             builder.Services.AddCors(options =>
             {
@@ -49,7 +55,7 @@ namespace SSProject1
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-                await next();
+                //await next();
             });
 
             app.UseAuthorization();
