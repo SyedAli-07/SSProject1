@@ -55,7 +55,7 @@ namespace SSProject1
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-                //await next();
+                await next();
             });
 
             app.UseAuthorization();

@@ -153,6 +153,11 @@ namespace SSProject1.Controllers
             var flight = await _context.Flights.FindAsync(id);
             var passenger = await _context.Passengers.FindAsync(passengerId);
 
+            if (flight == null || passenger == null)
+            {
+                return Problem("Flight or Passenger does not exist.");
+            }
+
             flight.Passengers.Add(passenger);
 
             await _context.SaveChangesAsync();
