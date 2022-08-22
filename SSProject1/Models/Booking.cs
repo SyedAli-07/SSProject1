@@ -1,15 +1,16 @@
 ﻿using SSProject1.DTO;
-
+using System.Text.Json.Serialization;
 namespace SSProject1.Models
 {
     public class Booking
     {
         //public int Id { get; set; }
         public int FlightId { get; set; }
+        [JsonIgnore]
         public virtual Flight Flight { get; set; }
         public int PassengerId { get; set; }
+        [JsonIgnore]
         public virtual Passenger Passenger { get; set; }
-
         public int ConfirmationNumber { get; set; }
 
         // Not Stored Property

@@ -39,18 +39,28 @@ namespace SSProject1.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Passenger>> GetPassenger(int id)
         {
-          if (_context.Passengers == null)
-          {
-              return NotFound();
-          }
+            if (_context.Passengers == null)
+            {
+                return NotFound();
+            }
             var passenger = await _context.Passengers.FindAsync(id);
+
 
             if (passenger == null)
             {
                 return NotFound();
             }
-
-            return passenger;
+            var flights = await _context.Flights.Where(p => p.BookedPassengers.Where(f => f.PassengerId == passenger.Id).Any()).ToListAsync();
+            var passengerDto = new PassengerDetailsDTO
+            {
+                Id = id,
+                Name = passenger.Name,
+                Age = passenger.Age,
+                Occupation = passenger.Occupation,
+                Email = passenger.Email,
+                FlightsList = flights
+            };
+            return Ok(passengerDto);
         }
 
         // PUT: api/Passengers/5
@@ -100,7 +110,8 @@ namespace SSProject1.Controllers
                 Name = passengerDto.Name,
                 Age = passengerDto.Age,
                 Occupation = passengerDto.Occupation,
-                Email = passengerDto.Email
+                Email = passengerDto.Email,
+                BookedFlights = new List<Booking>()
             };
             _context.Passengers.Add(passenger);
             await _context.SaveChangesAsync();

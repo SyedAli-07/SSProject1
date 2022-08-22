@@ -45,12 +45,23 @@ namespace SSProject1.Controllers
           }
             var flight = await _context.Flights.FindAsync(id);
 
+
             if (flight == null)
             {
                 return NotFound();
             }
-
-            return flight;
+            var passengers = await _context.Passengers.Where(p => p.BookedFlights.Where(f => f.FlightId == flight.Id).Any()).ToListAsync();
+            var flightDto = new FlightDetailsDTO
+            {
+                FlightNumber = flight.FlightNumber,
+                DepartureDateTime = flight.DepartureDateTime,
+                DepartureAirport = flight.DepartureAirport,
+                ArrivalDateTime = flight.ArrivalDateTime,
+                ArrivalAirport = flight.ArrivalAirport,
+                MaxCapacity = flight.MaxCapacity,
+                PassengerList = passengers
+            };
+            return Ok(flightDto);
         }
 
         // PUT: api/Flights/5
@@ -102,7 +113,8 @@ namespace SSProject1.Controllers
                 DepartureAirport = flightDto.DepartureAirport,
                 ArrivalDateTime = flightDto.ArrivalDateTime,
                 ArrivalAirport = flightDto.ArrivalAirport,
-                MaxCapacity = flightDto.MaxCapacity
+                MaxCapacity = flightDto.MaxCapacity,
+                BookedPassengers = new List<Booking>()
             };
 
             _context.Flights.Add(flight);
