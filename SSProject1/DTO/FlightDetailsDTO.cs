@@ -2,7 +2,7 @@
 
 namespace SSProject1.DTO
 {
-    public class FlightDTO
+    public class FlightDetailsDTO
     {
         public int Id { get; set; }
         public string FlightNumber { get; set; }
@@ -11,6 +11,6 @@ namespace SSProject1.DTO
         public string ArrivalDateTime { get; set; }
         public string ArrivalAirport { get; set; }
         public int MaxCapacity { get; set; }
-
+        public List<Passenger>  PassengerList { get; set; }
     }
 }

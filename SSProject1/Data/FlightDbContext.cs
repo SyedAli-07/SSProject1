@@ -12,7 +12,7 @@ namespace SSProject1.Data
         }
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Passenger> Passengers { get; set; }
-
+        public DbSet<Booking> Booking { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Booking>()
@@ -21,15 +21,15 @@ namespace SSProject1.Data
 
             // setting up one to many relationship between booking and flights
             modelBuilder.Entity<Booking>()
-                .HasOne(booking => booking.Flight)
-                .WithMany(booking => booking.BookedPassengers)
-                .HasForeignKey(booking => booking.FlightId);
+                .HasOne(ps => ps.Flight)
+                .WithMany(p => p.BookedPassengers)
+                .HasForeignKey(ps => ps.FlightId);
 
             // setting up one to many relationship between booking and passengers
             modelBuilder.Entity<Booking>()
-                .HasOne(booking => booking.Passenger)
-                .WithMany(booking => booking.BookedFlights)
-                .HasForeignKey(booking => booking.PassengerId);
+                .HasOne(ps => ps.Passenger)
+                .WithMany(p => p.BookedFlights)
+                .HasForeignKey(ps => ps.PassengerId);
 
             // Another way to write the above code
 
@@ -47,5 +47,7 @@ namespace SSProject1.Data
 
             //});
         }
+
+        
     }
 }
